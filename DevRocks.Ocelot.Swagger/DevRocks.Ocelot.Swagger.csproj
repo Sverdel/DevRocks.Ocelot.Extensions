@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>1.0.0</PackageVersion>
+        <Version>1.0.0</Version>
+        <Authors>Yuiriy Sverdel</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Description>Swagger for Ocelot</Description>
+        <RepositoryUrl>https://github.com/Sverdel/DevRocks.Ocelot</RepositoryUrl>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <OutputPath>..\bin\Debug\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <OutputPath>..\bin\Release\</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Ocelot" Version="16.0.1" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.4.1" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.4.1" />
+    </ItemGroup>
+
+</Project>
