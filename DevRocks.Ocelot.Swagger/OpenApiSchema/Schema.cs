@@ -20,7 +20,7 @@ namespace DevRocks.Ocelot.Swagger.OpenApiSchema
         public string Default { get; set; }
         public bool ReadOnly { get; set; }
         public bool WriteOnly { get; set; }
-        public bool Required { get; set; }
+        public ISet<string> Required { get; set; }
         public Schema Items { get; set; }
         public int? MaxItems { get; set; }
         public int? MinItems { get; set; }

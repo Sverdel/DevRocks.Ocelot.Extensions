@@ -193,7 +193,7 @@ namespace DevRocks.Ocelot.Swagger.Middleware
                 Title = schema.Title,
                 ReadOnly = schema.ReadOnly,
                 WriteOnly = schema.WriteOnly,
-                Required = schema.Required ? new HashSet<string> { schema.Required.ToString() } : null,
+                Required = schema.Required,
                 Default = string.IsNullOrEmpty(schema.Default) ? null : new OpenApiString(schema.Default),
             };
         }
