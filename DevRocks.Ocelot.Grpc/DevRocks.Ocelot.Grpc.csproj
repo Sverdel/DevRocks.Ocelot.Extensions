@@ -8,7 +8,7 @@
         <Authors>Yuiriy Sverdel</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>gRpc proxy</Description>
-        <RepositoryUrl>https://github.com/Sverdel/DevRocks.Ocelot</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Sverdel/DevRocks.Ocelot.Extensions</RepositoryUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
