@@ -8,7 +8,7 @@
         <Authors>Yuiriy Sverdel</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Extension for work with PolicyServer</Description>
-        <RepositoryUrl>https://github.com/Sverdel/DevRocks.Ocelot</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Sverdel/DevRocks.Ocelot.Extensions</RepositoryUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
