@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.2</PackageVersion>
-        <Version>1.0.2</Version>
+        <PackageVersion>1.0.3</PackageVersion>
+        <Version>1.0.3</Version>
         <Authors>Yuiriy Sverdel</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Extension for work with PolicyServer</Description>
