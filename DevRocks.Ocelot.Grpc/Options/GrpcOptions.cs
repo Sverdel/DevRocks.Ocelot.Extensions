@@ -32,7 +32,7 @@ namespace DevRocks.Ocelot.Grpc.Options
                               .ToDictionary(x => x.DownstreamPathTemplate.ToUpperInvariant(), x => x.RequestTimeout)
                           ?? new Dictionary<string, TimeSpan?>();
 
-            return _timeouts.GetValueOrDefault(route.ToUpperInvariant(), GlobalConfiguration.RequestTimeout) ?? GlobalConfiguration.RequestTimeout;
+            return _timeouts.GetValueOrDefault(route.ToUpperInvariant(), GlobalConfiguration?.RequestTimeout) ?? TimeSpan.MaxValue;
         }
     }
 }

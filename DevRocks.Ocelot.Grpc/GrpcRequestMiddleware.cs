@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using DevRocks.Ocelot.Grpc.Grpc;
@@ -15,12 +14,14 @@ using Grpc.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Ocelot.Errors;
 using Ocelot.LoadBalancer.LoadBalancers;
 using Ocelot.Middleware;
 using Ocelot.Responses;
+using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 
 namespace DevRocks.Ocelot.Grpc
 {
@@ -187,7 +188,7 @@ namespace DevRocks.Ocelot.Grpc
             var downstreamHost = $"{serviceHostPort.Data.DownstreamHost}:{serviceHostPort.Data.DownstreamPort}";
             var client = _clients.GetOrAdd(downstreamHost, host =>
             {
-                var channel = new Channel(downstreamHost, ChannelCredentials.Insecure);
+                var channel = new Channel(host, ChannelCredentials.Insecure);
                 return new MethodDescriptorCaller(channel);
             });
             return client;
@@ -199,14 +200,18 @@ namespace DevRocks.Ocelot.Grpc
             {
                 ResponseCode = _defaultErrorStatus,
                 Errors = new[] { new ApiError(e.Message, e.InnerException?.Message) }
+                
             });
  
-            
-            var response = new OkResponse<GrpcHttpContent>(new GrpcHttpContent(content));
-            response.Data.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Application.Json);
-            
             context.Response.ContentType = MediaTypeNames.Application.Json;
-            context.Items.UpsertDownstreamResponse(new DownstreamResponse(response.Data, _defaultErrorCode, response.Data.Headers, _defaultErrorCode.ToString()));
+            var response = new DownstreamResponse(content, 
+                _defaultErrorCode, 
+                new List<Header>
+                {
+                    new Header(HeaderNames.ContentType, new []{MediaTypeNames.Application.Json})
+                }, 
+                _defaultErrorCode.ToString());
+            context.Items.UpsertDownstreamResponse(response);
         }
  
         private static void ProcessRpcError(HttpContext  context, RpcException e)
@@ -226,11 +231,15 @@ namespace DevRocks.Ocelot.Grpc
             }
 
             var statusCode = _statusCodes.GetValueOrDefault(e.StatusCode, _defaultErrorCode);
-            var response = new OkResponse<GrpcHttpContent>(new GrpcHttpContent(content));
-            response.Data.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Application.Json);
-            
             context.Response.ContentType = MediaTypeNames.Application.Json;
-            context.Items.UpsertDownstreamResponse(new DownstreamResponse(response.Data, statusCode, response.Data.Headers, statusCode.ToString()));
+            var response = new DownstreamResponse(new GrpcHttpContent(content), 
+                statusCode, 
+                new List<Header>
+                {
+                    new Header(HeaderNames.ContentType, new []{MediaTypeNames.Application.Json})
+                }, 
+                statusCode.ToString());
+            context.Items.UpsertDownstreamResponse(response);
         }
     }
 }
