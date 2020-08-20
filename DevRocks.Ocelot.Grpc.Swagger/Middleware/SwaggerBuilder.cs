@@ -45,21 +45,17 @@ namespace DevRocks.Ocelot.Grpc.Swagger.Middleware
                 [typeof(byte[])] = () => new OpenApiSchema { Type = "string", Format = "byte" },
                 [typeof(sbyte[])] = () => new OpenApiSchema { Type = "string", Format = "byte" },
                 [typeof(bool)] = () => new OpenApiSchema { Type = "boolean" },
-                [typeof(DateTime)] = () => new OpenApiSchema
-                    { Type = "string", Format = "date-time", Example = new OpenApiDate(DateTime.Now) },
-                [typeof(DateTimeOffset)] = () => new OpenApiSchema
-                    { Type = "string", Format = "date-time", Example = new OpenApiDate(DateTime.Now) },
+                [typeof(DateTime)] = () => new OpenApiSchema { Type = "string", Format = "date-time", Example = new OpenApiDate(DateTime.Now) },
+                [typeof(DateTimeOffset)] = () => new OpenApiSchema { Type = "string", Format = "date-time", Example = new OpenApiDate(DateTime.Now) },
                 [typeof(Guid)] = () => new OpenApiSchema { Type = "string", Format = "uuid" },
                 [typeof(string)] = () => new OpenApiSchema { Type = "string" },
-                [typeof(Timestamp)] = () => new OpenApiSchema
-                    { Type = "string", Format = "date-time", Example = new OpenApiDate(DateTime.Now.Date) },
-                [typeof(Duration)] = () => new OpenApiSchema
-                    { Type = "string", Format = "date-time", Example = new OpenApiString(TimeSpan.Zero.ToString()) },
-                [typeof(Google.Protobuf.ByteString)] = () => new OpenApiSchema
-                    { Type = "string", Format = "byte", Example = new OpenApiString("U3dhZ2dlciByb2Nrcw==") },
+                [typeof(Timestamp)] = () => new OpenApiSchema { Type = "string", Format = "date-time", Example = new OpenApiDate(DateTime.Now.Date) },
+                [typeof(Duration)] = () => new OpenApiSchema { Type = "string", Format = "date-time", Example = new OpenApiString(TimeSpan.Zero.ToString()) },
+                [typeof(Google.Protobuf.ByteString)] = () => new OpenApiSchema { Type = "string", Format = "byte", Example = new OpenApiString("U3dhZ2dlciByb2Nrcw==") },
             };
 
-        public SwaggerBuilder(IOptions<SwaggerGeneratorOptions> swaggerGenOptions, GrpcServiceDescriptor handlers,
+        public SwaggerBuilder(IOptions<SwaggerGeneratorOptions> swaggerGenOptions,
+            GrpcServiceDescriptor handlers,
             Func<IDictionary<Type, Func<OpenApiSchema>>> typeMapFactory)
         {
             _swaggerGenOptions = swaggerGenOptions.Value;

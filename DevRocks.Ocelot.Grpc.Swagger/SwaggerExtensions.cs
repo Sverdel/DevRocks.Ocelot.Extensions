@@ -16,7 +16,8 @@ namespace DevRocks.Ocelot.Grpc.Swagger
 {
     public static class SwaggerExtensions
     {
-        public static void AddOcelotSwagger(this IServiceCollection services,
+        [Obsolete]
+        public static IServiceCollection AddOcelotSwagger(this IServiceCollection services,
             string appName,
             string authorityUrl,
             IConfiguration configuration,
@@ -24,9 +25,26 @@ namespace DevRocks.Ocelot.Grpc.Swagger
             Func<IServiceProvider, Dictionary<string, string>> serviceUrlFactory,
             Action<SwaggerConfig> configAction = null)
         {
+            return services
+                .AddOpenApiSchemaTypeMap(typeMap)
+                .AddGrpcOcelotSwagger(configuration, appName, authorityUrl, serviceUrlFactory, configAction);
+        }
+        
+        public static IServiceCollection AddGrpcOcelotSwagger(this IServiceCollection services,
+            IConfiguration configuration,
+            string appName = null,
+            string authorityUrl = null,
+            Func<IServiceProvider, Dictionary<string, string>> serviceUrlFactory = null,
+            Action<SwaggerConfig> configAction = null)
+        {
             services.AddOcelotSwagger(appName, authorityUrl, configuration, serviceUrlFactory);
-            services.AddSingleton<Func<IDictionary<Type, Func<OpenApiSchema>>>>(() => typeMap);
             services.Configure<SwaggerConfig>(opts => configAction?.Invoke(opts));
+            return services;
+        }
+
+        public static IServiceCollection AddOpenApiSchemaTypeMap(this IServiceCollection services, IDictionary<Type, Func<OpenApiSchema>> typeMap)
+        {
+            return services.AddSingleton<Func<IDictionary<Type, Func<OpenApiSchema>>>>(() => typeMap ?? new Dictionary<Type, Func<OpenApiSchema>>());
         }
 
         public static void UseOcelotSwagger(this IApplicationBuilder app)

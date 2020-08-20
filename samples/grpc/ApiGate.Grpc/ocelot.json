@@ -1,0 +1,19 @@
+﻿{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/greeter",
+      "UpstreamHttpMethod": [
+        "Post"
+      ],
+      "DownstreamPathTemplate": "/greet.Greeter/SayHello",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ],
+      "IsGrpc": true
+    }
+  ]
+}

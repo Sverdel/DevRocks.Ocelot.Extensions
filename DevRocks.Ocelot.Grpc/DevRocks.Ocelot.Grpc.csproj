@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.3</PackageVersion>
-        <Version>1.0.3</Version>
+        <PackageVersion>1.0.4</PackageVersion>
+        <Version>1.0.4</Version>
         <Authors>Yuiriy Sverdel</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>gRpc proxy</Description>
@@ -20,10 +20,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Google.Protobuf" Version="3.12.3" />
-      <PackageReference Include="Grpc.Core" Version="2.30.0" />
+      <PackageReference Include="Google.Protobuf" Version="3.13.0" />
+      <PackageReference Include="Grpc.Core" Version="2.31.0" />
 
-        <PackageReference Include="Grpc.Reflection" Version="2.30.0" />
+        <PackageReference Include="Grpc.Reflection" Version="2.31.0" />
       <PackageReference Include="Ocelot" Version="16.0.1" />
     </ItemGroup>
 

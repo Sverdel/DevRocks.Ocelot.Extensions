@@ -45,7 +45,7 @@ namespace DevRocks.Ocelot.Swagger.Middleware
         public async Task InvokeAsync(HttpContext httpContext)
         {
             var requestedJson = httpContext.Request.Path.Value.ToUpperInvariant();
-            if (!_options.Services.Values.Any(w => requestedJson.EndsWith(w.Url.ToUpperInvariant())))
+            if (_options.Services == null || !_options.Services.Values.Any(w => requestedJson.EndsWith(w.Url.ToUpperInvariant())))
             {
                 await _next(httpContext);
                 return;

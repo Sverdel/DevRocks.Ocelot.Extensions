@@ -19,17 +19,28 @@ namespace DevRocks.Ocelot.Swagger
     {
         private const string _swaggerApplicationVersion = "v1";
 
-        public static void AddOcelotSwagger(this IServiceCollection services,
+        [Obsolete]
+        public static IServiceCollection AddOcelotSwagger(this IServiceCollection services,
             string appName,
             string authorityUrl,
             IConfiguration configuration,
             Func<IServiceProvider, Dictionary<string, string>> serviceUrlFactory)
         {
+            return services.AddOcelotSwagger(configuration, appName, authorityUrl, serviceUrlFactory);
+        }
+        
+        public static IServiceCollection AddOcelotSwagger(this IServiceCollection services,
+            IConfiguration configuration,
+            string appName = null,
+            string authorityUrl = null,
+            Func<IServiceProvider, Dictionary<string, string>> serviceUrlFactory = null)
+        {
+            services.AddHttpClient();
             services.Configure<SwaggerOptions>(configuration.GetSection(nameof(SwaggerOptions)));
             var swaggerApplicationDescription = $"Api for information by {appName}";
             
             services.AddSingleton<SwaggerBuilder>();
-            services.AddSingleton<Func<Dictionary<string, string>>>(sp => () => serviceUrlFactory(sp));
+            services.AddSingleton<Func<Dictionary<string, string>>>(sp => () => serviceUrlFactory?.Invoke(sp) ?? new Dictionary<string, string>());
 
             services.AddSwaggerGen(c =>
             {
@@ -63,6 +74,8 @@ namespace DevRocks.Ocelot.Swagger
 
                 c.IgnoreObsoleteActions();
             });
+
+            return services;
         }
 
         public static void UseOcelotSwagger(this IApplicationBuilder app, Action<SwaggerUIOptions> configAction)
@@ -71,7 +84,7 @@ namespace DevRocks.Ocelot.Swagger
             app.UseSwagger();
             app.UseSwaggerUI(opts =>
             {
-                foreach (var (name, service) in config.Services)
+                foreach (var (name, service) in config.Services ?? new Dictionary<string, Service>())
                 {
                     opts.SwaggerEndpoint(service.Url, name);
                 }
