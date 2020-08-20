@@ -45,7 +45,8 @@ namespace DevRocks.Ocelot.Swagger.Middleware
         public async Task InvokeAsync(HttpContext httpContext)
         {
             var requestedJson = httpContext.Request.Path.Value.ToUpperInvariant();
-            if (_options.Services == null || !_options.Services.Values.Any(w => requestedJson.EndsWith(w.Url.ToUpperInvariant())))
+            
+            if (_options.Services?.Values.Any(w => requestedJson.EndsWith(w.Url.ToUpper())) != true)
             {
                 await _next(httpContext);
                 return;
@@ -54,19 +55,20 @@ namespace DevRocks.Ocelot.Swagger.Middleware
             var result = await _cache.GetOrCreateAsync($"{nameof(SwaggerMiddleware)}:{requestedJson}",  async entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = _options.CacheTimeout;
-                    var ocelotConfig = _configRepository.Get().Data;
-                    var definition = _options.Services.Values.First(w => requestedJson.EndsWith(w.Url.ToUpperInvariant()));
-                    var routes = ocelotConfig.Routes
-                        .Where(x => x.DownstreamRoute.Any(v => string.Equals(v.ServiceName, definition.ServiceName, StringComparison.OrdinalIgnoreCase)))
-                        .ToList();
+                var ocelotConfig = _configRepository.Get().Data;
+                var definition = _options.Services.Values.First(w => requestedJson.EndsWith(w.Url.ToUpperInvariant()));
+                var routes = ocelotConfig.Routes
+                    .Where(x => x.DownstreamRoute.Any(v => string.Equals(v.ServiceName, definition.ServiceName, StringComparison.OrdinalIgnoreCase)))
+                    .ToList();
 
-                    var location = _servicesFactory()
-                        .GetValueOrDefault(definition.ServiceName.ToUpperInvariant(), string.Empty) + definition.Location;
+                var location = string.IsNullOrEmpty(definition.ServiceName)
+                    ? definition.Location
+                    : (_servicesFactory()?.GetValueOrDefault(definition.ServiceName.ToUpperInvariant()) ?? string.Empty) + definition.Location;
 
-                    var httpClient = _httpClientFactory.CreateClient();
-                    var content = await httpClient.GetStringAsync(location);
+                var httpClient = _httpClientFactory.CreateClient();
+                var content = await httpClient.GetStringAsync(location);
 
-                    return _builder.Build(content, routes);
+                return _builder.Build(content, routes);
             });
 
             httpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(result);

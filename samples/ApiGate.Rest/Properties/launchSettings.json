@@ -1,0 +1,12 @@
+﻿{
+  "profiles": {
+    "ApiGate.Rest": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5600",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

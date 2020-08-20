@@ -16,19 +16,6 @@ namespace DevRocks.Ocelot.Grpc.Swagger
 {
     public static class SwaggerExtensions
     {
-        [Obsolete]
-        public static IServiceCollection AddOcelotSwagger(this IServiceCollection services,
-            string appName,
-            string authorityUrl,
-            IConfiguration configuration,
-            IDictionary<Type, Func<OpenApiSchema>> typeMap,
-            Func<IServiceProvider, Dictionary<string, string>> serviceUrlFactory,
-            Action<SwaggerConfig> configAction = null)
-        {
-            return services
-                .AddOpenApiSchemaTypeMap(typeMap)
-                .AddGrpcOcelotSwagger(configuration, appName, authorityUrl, serviceUrlFactory, configAction);
-        }
         
         public static IServiceCollection AddGrpcOcelotSwagger(this IServiceCollection services,
             IConfiguration configuration,
@@ -37,7 +24,7 @@ namespace DevRocks.Ocelot.Grpc.Swagger
             Func<IServiceProvider, Dictionary<string, string>> serviceUrlFactory = null,
             Action<SwaggerConfig> configAction = null)
         {
-            services.AddOcelotSwagger(appName, authorityUrl, configuration, serviceUrlFactory);
+            services.AddOcelotSwagger(configuration, appName, authorityUrl, serviceUrlFactory);
             services.Configure<SwaggerConfig>(opts => configAction?.Invoke(opts));
             return services;
         }

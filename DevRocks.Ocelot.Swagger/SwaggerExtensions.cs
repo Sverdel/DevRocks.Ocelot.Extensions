@@ -11,23 +11,11 @@ using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-// ReSharper disable UnusedMember.Global
-
 namespace DevRocks.Ocelot.Swagger
 {
     public static class SwaggerExtensions
     {
         private const string _swaggerApplicationVersion = "v1";
-
-        [Obsolete]
-        public static IServiceCollection AddOcelotSwagger(this IServiceCollection services,
-            string appName,
-            string authorityUrl,
-            IConfiguration configuration,
-            Func<IServiceProvider, Dictionary<string, string>> serviceUrlFactory)
-        {
-            return services.AddOcelotSwagger(configuration, appName, authorityUrl, serviceUrlFactory);
-        }
         
         public static IServiceCollection AddOcelotSwagger(this IServiceCollection services,
             IConfiguration configuration,
@@ -78,7 +66,7 @@ namespace DevRocks.Ocelot.Swagger
             return services;
         }
 
-        public static void UseOcelotSwagger(this IApplicationBuilder app, Action<SwaggerUIOptions> configAction)
+        public static void UseOcelotSwagger(this IApplicationBuilder app, Action<SwaggerUIOptions> configAction = null)
         {
             var config = app.ApplicationServices.GetService<IOptions<SwaggerOptions>>().Value; 
             app.UseSwagger();

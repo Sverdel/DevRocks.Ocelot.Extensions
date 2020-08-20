@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.4</PackageVersion>
-        <Version>1.0.4</Version>
+        <PackageVersion>1.0.5</PackageVersion>
+        <Version>1.0.5</Version>
         <Authors>Yuiriy Sverdel</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Swagger for gRpc services</Description>
@@ -20,12 +20,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DevRocks.Ocelot.Grpc" Version="1.0.3" />
-      <PackageReference Include="DevRocks.Ocelot.Swagger" Version="1.0.3" />
-      <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
-      <PackageReference Include="Microsoft.OpenApi" Version="1.2.2" />
+      <PackageReference Include="DevRocks.Ocelot.Grpc" Version="1.*" />
+      <PackageReference Include="DevRocks.Ocelot.Swagger" Version="1.*" />
       <PackageReference Include="Ocelot" Version="16.0.1" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
     </ItemGroup>
 
 </Project>

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Ocelot.Configuration.Repository;
 using DevRocks.Ocelot.Grpc.Swagger.Model;
@@ -27,7 +26,6 @@ namespace DevRocks.Ocelot.Grpc.Swagger.Middleware
             _ocelotConfigurationsRepository = ocelotConfigurationsRepository;
         }
 
-        [UsedImplicitly]
         public async Task InvokeAsync(HttpContext httpContext)
         {
             var requestedJson = httpContext.Request.Path.Value.ToUpper();
