@@ -52,7 +52,9 @@ namespace DevRocks.Ocelot.Swagger.Middleware
             {
                 var downstreamroute = route.DownstreamRoute.FirstOrDefault();
                 //remove pathSegment specificator
-                var downstreamPath = downstreamroute?.DownstreamPathTemplate?.Value?.Replace("*", ""); 
+                var downstreamPath = downstreamroute?.DownstreamPathTemplate?.Value?.Replace("*", "");
+                if (downstreamPath?.Contains("?") == true)
+                    downstreamPath = downstreamPath.Substring(0, downstreamPath.IndexOf('?'));
                 var destPath = swagger.Paths.GetValueOrDefault(downstreamPath ?? string.Empty);
                 if (downstreamroute == null || destPath == null)
                 {
