@@ -13,6 +13,7 @@ ProjectSection(SolutionItems) = preProject
 	.github\workflows\release-policy-server.yml = .github\workflows\release-policy-server.yml
 	.github\workflows\release-service-discovery.yml = .github\workflows\release-service-discovery.yml
 	.github\workflows\release-swagger.yml = .github\workflows\release-swagger.yml
+	.github\dependabot.yml = .github\dependabot.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevRocks.Ocelot.Swagger", "DevRocks.Ocelot.Swagger\DevRocks.Ocelot.Swagger.csproj", "{85D946E3-A923-4B01-A254-613CDF84364B}"
