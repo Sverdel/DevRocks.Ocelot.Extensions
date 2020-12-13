@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Ocelot.Authorisation;
+using Ocelot.Authorization;
 using Ocelot.Errors;
 using Ocelot.Middleware;
 
@@ -51,9 +51,9 @@ namespace DevRocks.Ocelot.PolicyServer
         private static bool AuthorizeByClaims(HttpContext  context)
         {
             var downstreamRoute = context.Items.DownstreamRoute();
-            var claimsAuthoriser = context.RequestServices.GetRequiredService<IClaimsAuthoriser>();
+            var claimsAuthorizer = context.RequestServices.GetRequiredService<IClaimsAuthorizer>();
 
-            var authorised = claimsAuthoriser.Authorise(context.User,
+            var authorised = claimsAuthorizer.Authorize(context.User,
                 downstreamRoute.RouteClaimsRequirement,
                 context.Items.TemplatePlaceholderNameAndValues());
 
@@ -69,15 +69,15 @@ namespace DevRocks.Ocelot.PolicyServer
             }
 
             SetPipelineError(context,
-                new UnauthorisedError(
-                    $"{context.User.Identity.Name} is not authorised to access {downstreamRoute.UpstreamPathTemplate.OriginalValue}"));
+                new UnauthorizedError(
+                    $"{context.User.Identity?.Name} is not authorised to access {downstreamRoute.UpstreamPathTemplate.OriginalValue}"));
 
             return false;
         }
 
         private static async Task<bool> AuthorizeByPolicyAsync(HttpContext  context, string policy)
         {
-            var authorizationService = context.RequestServices.GetService<IAuthorizationService>();
+            var authorizationService = context.RequestServices.GetRequiredService<IAuthorizationService>();
 
             var result = await authorizationService.AuthorizeAsync(context.User, new object(), policy);
             if (result.Succeeded)
@@ -85,15 +85,15 @@ namespace DevRocks.Ocelot.PolicyServer
                 return true;
             }
 
-            SetPipelineError(context, new UnauthorisedError($"Forbidden with policy {policy}"));
+            SetPipelineError(context, new UnauthorizedError($"Forbidden with policy {policy}"));
             return false;
         }
 
         private static bool AuthorizeByScope(HttpContext  context)
         {
             var downstreamRoute = context.Items.DownstreamRoute();
-            var scopesAuthoriser = context.RequestServices.GetRequiredService<IScopesAuthoriser>();
-            var authorised = scopesAuthoriser.Authorise(context.User,
+            var scopesAuthorizer = context.RequestServices.GetRequiredService<IScopesAuthorizer>();
+            var authorised = scopesAuthorizer.Authorize(context.User,
                 downstreamRoute.AuthenticationOptions.AllowedScopes);
 
             if (authorised.IsError)
@@ -108,8 +108,8 @@ namespace DevRocks.Ocelot.PolicyServer
             }
 
             SetPipelineError(context,
-                new UnauthorisedError(
-                    $"{context.User.Identity.Name} unable to access {downstreamRoute.UpstreamPathTemplate.OriginalValue}"));
+                new UnauthorizedError(
+                    $"{context.User.Identity?.Name} unable to access {downstreamRoute.UpstreamPathTemplate.OriginalValue}"));
 
             return false;
         }
