@@ -50,13 +50,13 @@ namespace DevRocks.Ocelot.Swagger.Middleware
             
             foreach (var route in routes)
             {
-                var downstreamroute = route.DownstreamRoute.FirstOrDefault();
+                var downstreamRoute = route.DownstreamRoute.FirstOrDefault();
                 //remove pathSegment specificator
-                var downstreamPath = downstreamroute?.DownstreamPathTemplate?.Value?.Replace("*", "");
+                var downstreamPath = downstreamRoute?.DownstreamPathTemplate?.Value?.Replace("*", "");
                 if (downstreamPath?.Contains("?") == true)
                     downstreamPath = downstreamPath.Substring(0, downstreamPath.IndexOf('?'));
                 var destPath = swagger.Paths.GetValueOrDefault(downstreamPath ?? string.Empty);
-                if (downstreamroute == null || destPath == null)
+                if (downstreamRoute == null || destPath == null)
                 {
                     continue;
                 }
@@ -65,10 +65,10 @@ namespace DevRocks.Ocelot.Swagger.Middleware
                     .FirstOrDefault(x => route.UpstreamHttpMethod
                         .Any(m => string.Equals(m.Method, x.Key.ToString(), StringComparison.OrdinalIgnoreCase)));
 
-                var operation = BuildOperation(sourceOperation, downstreamroute);
+                var operation = BuildOperation(sourceOperation, downstreamRoute);
 
                 //remove pathSegment specificator
-                var upstreamPath = downstreamroute.UpstreamPathTemplate.OriginalValue?.Replace("*", "");
+                var upstreamPath = downstreamRoute.UpstreamPathTemplate.OriginalValue?.Replace("*", "");
 
                 if (string.IsNullOrEmpty(upstreamPath))
                 {
