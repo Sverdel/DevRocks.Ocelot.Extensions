@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Grpc.Core;
+using Grpc.Net.Client;
 
 namespace DevRocks.Ocelot.Grpc.Internal.Grpc
 {
@@ -14,7 +15,7 @@ namespace DevRocks.Ocelot.Grpc.Internal.Grpc
         {
         }
 
-        public MethodDescriptorCaller(Channel channel) : base(channel)
+        public MethodDescriptorCaller(GrpcChannel channel) : base(channel)
         {
         }
 

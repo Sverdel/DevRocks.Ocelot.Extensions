@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using DevRocks.Ocelot.Grpc.Grpc;
@@ -11,6 +12,7 @@ using DevRocks.Ocelot.Grpc.Internal.Http;
 using DevRocks.Ocelot.Grpc.Options;
 using DevRocks.Ocelot.Grpc.Response;
 using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -188,7 +190,14 @@ namespace DevRocks.Ocelot.Grpc
             var downstreamHost = $"{serviceHostPort.Data.DownstreamHost}:{serviceHostPort.Data.DownstreamPort}";
             var client = _clients.GetOrAdd(downstreamHost, host =>
             {
-                var channel = new Channel(host, ChannelCredentials.Insecure);
+                var channel = GrpcChannel.ForAddress(host, new GrpcChannelOptions
+                {
+                    Credentials = ChannelCredentials.Insecure,
+                    HttpHandler = new SocketsHttpHandler
+                    {
+                        EnableMultipleHttp2Connections = true,
+                    }
+                });
                 return new MethodDescriptorCaller(channel);
             });
             return client;
