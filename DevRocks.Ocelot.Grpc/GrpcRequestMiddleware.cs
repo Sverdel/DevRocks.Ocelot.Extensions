@@ -190,6 +190,9 @@ namespace DevRocks.Ocelot.Grpc
             var downstreamHost = $"{serviceHostPort.Data.DownstreamHost}:{serviceHostPort.Data.DownstreamPort}";
             var client = _clients.GetOrAdd(downstreamHost, host =>
             {
+                //HACK backward compatibility
+                if (!string.IsNullOrEmpty(host) && !host.StartsWith("http"))
+                    host = "http://" + host;
                 var channel = GrpcChannel.ForAddress(host, new GrpcChannelOptions
                 {
                     Credentials = ChannelCredentials.Insecure,
