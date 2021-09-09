@@ -21,7 +21,7 @@
 
     <ItemGroup>
       <PackageReference Include="Ocelot" Version="17.0.0" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
     </ItemGroup>
 
 </Project>
