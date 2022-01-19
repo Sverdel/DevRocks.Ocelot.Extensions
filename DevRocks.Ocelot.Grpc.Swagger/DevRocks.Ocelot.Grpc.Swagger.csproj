@@ -22,7 +22,7 @@
     <ItemGroup>
       <PackageReference Include="DevRocks.Ocelot.Grpc" Version="1.*" />
       <PackageReference Include="DevRocks.Ocelot.Swagger" Version="1.*" />
-      <PackageReference Include="Ocelot" Version="17.0.0" />
+      <PackageReference Include="Ocelot" Version="17.0.1" />
     </ItemGroup>
 
 </Project>
