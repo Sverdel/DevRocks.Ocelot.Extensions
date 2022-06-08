@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.1.1</PackageVersion>
-        <Version>1.1.1</Version>
+        <PackageVersion>1.2.0</PackageVersion>
+        <Version>1.2.0</Version>
         <Authors>Yuiriy Sverdel</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Swagger for Ocelot</Description>
@@ -20,8 +20,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Ocelot" Version="17.0.1" />
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+      <PackageReference Include="Ocelot" Version="18.0.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
     </ItemGroup>
 
 </Project>

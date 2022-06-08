@@ -15,7 +15,6 @@ using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 using Ocelot.Configuration;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using DevRocks.Ocelot.Grpc.Extensions;
 using DevRocks.Ocelot.Grpc.Response;
 using DevRocks.Ocelot.Grpc.Swagger.Model;
 using Enum = System.Enum;

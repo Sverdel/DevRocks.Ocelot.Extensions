@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.1.1</PackageVersion>
-        <Version>1.1.1</Version>
+        <PackageVersion>1.2.0</PackageVersion>
+        <Version>1.2.0</Version>
         <Authors>Yuiriy Sverdel</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Swagger for gRpc services</Description>
@@ -19,10 +19,18 @@
       <OutputPath>..\bin\Release\</OutputPath>
     </PropertyGroup>
 
+    <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
+        <PackageReference Include="DevRocks.Ocelot.Grpc" Version="1.*" />
+        <PackageReference Include="DevRocks.Ocelot.Swagger" Version="1.*" />
+    </ItemGroup>
+
     <ItemGroup>
-      <PackageReference Include="DevRocks.Ocelot.Grpc" Version="1.*" />
-      <PackageReference Include="DevRocks.Ocelot.Swagger" Version="1.*" />
-      <PackageReference Include="Ocelot" Version="17.0.1" />
+      <PackageReference Include="Ocelot" Version="18.0.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <ProjectReference Include="..\DevRocks.Ocelot.Grpc\DevRocks.Ocelot.Grpc.csproj" />
+      <ProjectReference Include="..\DevRocks.Ocelot.Swagger\DevRocks.Ocelot.Swagger.csproj" />
     </ItemGroup>
 
 </Project>

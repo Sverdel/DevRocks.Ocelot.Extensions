@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ocelot.Configuration.File;
-using DevRocks.Ocelot.Grpc.Extensions;
 
 namespace DevRocks.Ocelot.Grpc.Options
 {
